@@ -431,6 +431,7 @@ var Settings = map[string]CommandFunc{
 	"WaitPattern":   ExecuteSetWaitPattern,
 	"WaitTimeout":   ExecuteSetWaitTimeout,
 	"CursorBlink":   ExecuteSetCursorBlink,
+	"LoopCount":     ExecuteSetLoopCount,
 }
 
 // ExecuteSet applies the settings on the running vhs specified by the
@@ -703,6 +704,19 @@ func ExecuteSetCursorBlink(c parser.Command, v *VHS) error {
 // ExecuteScreenshot is a CommandFunc that indicates a new screenshot must be taken.
 func ExecuteScreenshot(c parser.Command, v *VHS) error {
 	v.ScreenshotNextFrame(c.Args)
+	return nil
+}
+
+// ExecuteSetLoopCount sets number of loops for GIF.
+func ExecuteSetLoopCount(c parser.Command, v *VHS) error {
+	var err error
+	v.Options.Video.LoopCount, err = strconv.Atoi(c.Args)
+	if err != nil {
+		return fmt.Errorf("failed to parse LoopCount: %w", err)
+	}
+	if v.Options.Video.LoopCount < -1 {
+		return fmt.Errorf("LoopCount must be -1 (no loop), 0 (infinite), or positive integer")
+	}
 	return nil
 }
 

@@ -103,6 +103,7 @@ const (
 	WAIT_TIMEOUT    = "WAIT_TIMEOUT"    //nolint:revive
 	WAIT_PATTERN    = "WAIT_PATTERN"    //nolint:revive
 	CURSOR_BLINK    = "CURSOR_BLINK"    //nolint:revive
+	LOOP_COUNT      = "LOOP_COUNT"      //nolint:revive
 )
 
 // Keywords maps keyword strings to tokens.
@@ -165,6 +166,7 @@ var Keywords = map[string]Type{
 	"Copy":          COPY,
 	"Paste":         PASTE,
 	"Env":           ENV,
+	"LoopCount":     LOOP_COUNT,
 }
 
 // IsSetting returns whether a token is a setting.
@@ -173,7 +175,7 @@ func IsSetting(t Type) bool {
 	case SHELL, FONT_FAMILY, FONT_SIZE, LETTER_SPACING, LINE_HEIGHT,
 		FRAMERATE, TYPING_SPEED, THEME, PLAYBACK_SPEED, HEIGHT, WIDTH,
 		PADDING, LOOP_OFFSET, MARGIN_FILL, MARGIN, WINDOW_BAR,
-		WINDOW_BAR_SIZE, BORDER_RADIUS, CURSOR_BLINK, WAIT_TIMEOUT, WAIT_PATTERN:
+		WINDOW_BAR_SIZE, BORDER_RADIUS, CURSOR_BLINK, WAIT_TIMEOUT, WAIT_PATTERN, LOOP_COUNT:
 		return true
 	default:
 		return false

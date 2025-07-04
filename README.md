@@ -527,6 +527,16 @@ Set CursorBlink false
   <img width="600" alt="Example of setting the cursor blink." src="https://vhs.charm.sh/vhs-3rMCb80VEkaDdTOJMCrxKy.gif">
 </picture>
 
+#### Set Loop Count
+
+Set the number of repetitions for a GIF with the `Set LoopCount` command. This controls how many additional times the GIF will repeat after the initial playthrough.
+
+```elixir
+Set LoopCount -1  # No repetition (play once only)
+Set LoopCount 0   # Infinite loop (default)
+Set LoopCount 2   # Play 3 times total (1 initial + 2 repetitions)
+```
+
 ### Type
 
 Use `Type` to emulate key presses. That is, you can use `Type` to script typing

@@ -14,6 +14,8 @@ func TestParser(t *testing.T) {
 Set TypingSpeed 100ms
 Set WaitTimeout 1m
 Set WaitPattern /foo/
+Set LoopCount 5
+Set LoopCount -1
 Type "echo 'Hello, World!'"
 Enter
 Backspace@0.1 5
@@ -39,6 +41,8 @@ Wait@100ms /foobar/`
 		{Type: token.SET, Options: "TypingSpeed", Args: "100ms"},
 		{Type: token.SET, Options: "WaitTimeout", Args: "1m"},
 		{Type: token.SET, Options: "WaitPattern", Args: "foo"},
+		{Type: token.SET, Options: "LoopCount", Args: "5"},
+		{Type: token.SET, Options: "LoopCount", Args: "-1"},
 		{Type: token.TYPE, Options: "", Args: "echo 'Hello, World!'"},
 		{Type: token.ENTER, Options: "", Args: "1"},
 		{Type: token.BACKSPACE, Options: "0.1s", Args: "5"},

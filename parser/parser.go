@@ -515,6 +515,31 @@ func (p *Parser) parseSet() Command {
 				NewError(p.cur, "expected boolean value."),
 			)
 		}
+	case token.LOOP_COUNT:
+		// Handle -1 as MINUS + NUMBER
+		if p.peek.Type == token.MINUS {
+			cmd.Args = p.peek.Literal
+			p.nextToken()
+			if p.peek.Type == token.NUMBER {
+				cmd.Args += p.peek.Literal
+				p.nextToken()
+			} else {
+				p.errors = append(
+					p.errors,
+					NewError(p.peek, "expected number after minus sign."),
+				)
+			}
+		} else {
+			cmd.Args = p.peek.Literal
+			p.nextToken()
+		}
+
+		if p.cur.Type != token.NUMBER {
+			p.errors = append(
+				p.errors,
+				NewError(p.cur, "expected number of repetitions."),
+			)
+		}
 
 	default:
 		cmd.Args = p.peek.Literal

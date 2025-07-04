@@ -56,11 +56,13 @@ type VideoOptions struct {
 	Output        VideoOutputs
 	StartingFrame int
 	Style         *StyleOptions
+	LoopCount     int
 }
 
 const (
 	defaultFramerate     = 50
 	defaultStartingFrame = 1
+	defaultLoopCount     = 0
 )
 
 // DefaultVideoOptions is the set of default options for converting frames
@@ -73,6 +75,7 @@ func DefaultVideoOptions() VideoOptions {
 		Output:        VideoOutputs{GIF: "", WebM: "", MP4: "", Frames: ""},
 		PlaybackSpeed: defaultPlaybackSpeed,
 		StartingFrame: defaultStartingFrame,
+		LoopCount:     defaultLoopCount,
 	}
 }
 
@@ -136,7 +139,8 @@ func buildFFopts(opts VideoOptions, targetFile string) []string {
 		WithMarginFill(streamBuilder.marginStream)
 
 	// Format-specific options
-	switch filepath.Ext(targetFile) {
+	outputExtension := filepath.Ext(targetFile)
+	switch outputExtension {
 	case gif:
 		filterBuilder = filterBuilder.WithGIF()
 	case webm:
@@ -147,6 +151,9 @@ func buildFFopts(opts VideoOptions, targetFile string) []string {
 
 	args = append(args, streamBuilder.Build()...)
 	args = append(args, filterBuilder.Build()...)
+	if outputExtension == gif {
+		args = append(args, "-loop", fmt.Sprint(opts.LoopCount))
+	}
 	args = append(args, targetFile)
 
 	return args
